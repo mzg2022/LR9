@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<div class="container">
+    <h1>Welcome, {{ user.username }}</h1>
+    <p>Balance: ${{ user.balance }}</p>
+    <h2>Your Transactions</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Sender</th>
+                <th>Receiver</th>
+                <th>Amount</th>
+                <th>Description</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for transaction in transactions %}
+            <tr>
+                <td>{{ transaction.sender.username }}</td>
+                <td>{{ transaction.receiver.username }}</td>
+                <td>${{ transaction.amount }}</td>
+                <td>{{ transaction.description }}</td>
+                <td>{{ transaction.date }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <h2>Transfer Funds</h2>
+    <form id="transactionForm">
+        <input type="hidden" name="sender_id" value="{{ user.id }}">
+        <input type="text" name="receiver_username" placeholder="Receiver's Username" required>
+        <input type="number" name="amount" step="0.01" placeholder="Amount" required>
+        <input type="text" name="description" placeholder="Description">
+        <button type="submit">Send</button>
+    </form>
+    <h2>Top Up Balance</h2>
+    <form id="topUpForm">
+        <input type="number" name="amount" step="0.01" placeholder="Amount" required>
+        <button type="submit">Top Up</button>
+    </form>
+    <script src="/static/js/dashboard.js"></script>
+</div>
+{% endblock %}
+
